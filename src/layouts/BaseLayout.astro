@@ -44,6 +44,9 @@ function defaultOgImage(routePath: string) {
   if (routePath === "/blog") return `/og/blog-list/${locale}`;
   if (routePath.startsWith("/blog/"))
     return `/og/blog/${locale}/${routePath.replace(/^\/blog\//, "")}`;
+  if (routePath === "/writeups") return `/og/writeups-list/${locale}`;
+  if (routePath.startsWith("/writeups/"))
+    return `/og/writeup/${locale}/${routePath.replace(/^\/writeups\//, "")}`;
   return `/og/page/${locale}${routePath}`;
 }
 ---

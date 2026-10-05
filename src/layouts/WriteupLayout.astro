@@ -1,0 +1,251 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import BaseLayout from "./BaseLayout.astro";
+import SEO from "../components/seo/SEO.astro";
+import Alert from "../components/ui/feedback/Alert/Alert.astro";
+import { type Locale } from "../lib/site-config";
+import { canonicalUrl, jsonLdFAQ } from "../lib/seo";
+import { resolveRoute } from "../i18n/routes";
+import { t } from "../i18n/ui";
+import { siteConfig } from "../config/site.config";
+import {
+  ArticleHero,
+  RelatedPosts,
+  ShareButtons,
+  TableOfContents,
+} from "../components/blog/index";
+
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+export interface Props {
+  writeup: CollectionEntry<"writeups">;
+  locale: Locale;
+  headings?: Heading[];
+}
+
+const { writeup, locale, headings = [] } = Astro.props as Props;
+
+const publishDate = new Date(writeup.data.publishDate);
+const updatedDate = writeup.data.updatedAt
+  ? new Date(writeup.data.updatedAt)
+  : publishDate;
+const tags = writeup.data.tags ?? [];
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: writeup.data.title,
+    description: writeup.data.description,
+    datePublished: publishDate.toISOString(),
+    dateModified: updatedDate.toISOString(),
+    author: {
+      "@type": "Person",
+      name: writeup.data.author,
+    },
+    mainEntityOfPage: canonicalUrl(locale, `/writeups/${writeup.id}`),
+    inLanguage: locale,
+  },
+  ...(writeup.data.faqs?.length
+    ? [
+        jsonLdFAQ(
+          writeup.data.faqs.map((faq: { question: string; answer: string }) => ({
+            question: faq.question,
+            answer: faq.answer,
+          })),
+        ),
+      ]
+    : []),
+];
+
+const allWriteups = await getCollection("writeups");
+---
+
+<BaseLayout
+  title={writeup.data.title}
+  description={writeup.data.description}
+  locale={locale}
+  path={`/writeups/${writeup.id}`}
+  showThemeToggle={true}
+>
+  <SEO
+    slot="seo"
+    title={writeup.data.title}
+    description={writeup.data.description}
+    locale={locale}
+    path={`/writeups/${writeup.id}`}
+    ogImage={`/og/writeup/${locale}/${writeup.id}`}
+    article={{
+      publishedTime: publishDate.toISOString(),
+      modifiedTime: updatedDate.toISOString(),
+      author: writeup.data.author,
+      tags,
+    }}
+    jsonLd={jsonLd}
+  />
+
+  <article class="writeup-layout container py-12">
+    <ArticleHero post={writeup} locale={locale} />
+
+    <Alert variant="info" class="writeup-layout__note">
+      {t(locale, "writeups.note")}
+    </Alert>
+
+    {
+      siteConfig.articleFeatures.toc.enabled &&
+        siteConfig.articleFeatures.toc.layout === "inline" && (
+          <TableOfContents
+            headings={headings}
+            layout="inline"
+            maxDepth={siteConfig.articleFeatures.toc.maxDepth}
+            minHeadings={siteConfig.articleFeatures.toc.minHeadings}
+            title={t(locale, "blog.toc")}
+            locale={locale}
+          />
+        )
+    }
+
+    <div
+      class={`writeup-layout__content${siteConfig.articleFeatures.toc.enabled && siteConfig.articleFeatures.toc.layout === "sidebar" ? " writeup-layout__content--with-toc" : ""}`}
+    >
+      {
+        siteConfig.articleFeatures.toc.enabled &&
+          siteConfig.articleFeatures.toc.layout === "sidebar" && (
+            <aside class="writeup-layout__toc writeup-layout__toc--sidebar">
+              <TableOfContents
+                headings={headings}
+                layout="sidebar"
+                maxDepth={siteConfig.articleFeatures.toc.maxDepth}
+                minHeadings={siteConfig.articleFeatures.toc.minHeadings}
+                title={t(locale, "blog.toc")}
+                locale={locale}
+              />
+            </aside>
+          )
+      }
+
+      <div
+        class="writeup-layout__article prose prose-gray dark:prose-invert max-w-none"
+      >
+        <slot />
+      </div>
+    </div>
+
+    <ShareButtons
+      url={canonicalUrl(locale, `/writeups/${writeup.id}`)}
+      title={writeup.data.title}
+      locale={locale}
+    />
+
+    <RelatedPosts
+      currentPost={writeup}
+      allPosts={allWriteups}
+      locale={locale}
+    />
+
+    <nav class="writeup-layout__back">
+      <a href={resolveRoute(locale, "/writeups")}>
+        <span aria-hidden="true">&larr;</span>
+        {t(locale, "writeups.back")}
+      </a>
+    </nav>
+  </article>
+</BaseLayout>
+
+<style>
+  .writeup-layout {
+    display: grid;
+    gap: var(--space-2xl);
+  }
+
+  .writeup-layout__note {
+    font-size: 0.9375rem;
+  }
+
+  .writeup-layout__content {
+    display: grid;
+    gap: var(--space-xl);
+    align-items: start;
+  }
+
+  .writeup-layout__content--with-toc {
+    grid-template-columns: minmax(0, 1fr) 16rem;
+  }
+
+  /*
+   * The TOC <aside> is first in the DOM (so it appears at the top on mobile),
+   * but on desktop the article must own the wide column and the TOC sits in a
+   * narrow right rail. Explicit placement makes this independent of DOM order.
+   */
+  .writeup-layout__content--with-toc .writeup-layout__article {
+    grid-column: 1;
+    grid-row: 1;
+    min-width: 0;
+  }
+
+  .writeup-layout__content--with-toc .writeup-layout__toc--sidebar {
+    grid-column: 2;
+    grid-row: 1;
+    position: sticky;
+    top: 5.5rem;
+    max-height: calc(100vh - 7rem);
+    overflow-y: auto;
+  }
+
+  /* Comfortable reading measure for long-form content. */
+  .writeup-layout__article {
+    max-width: 72ch;
+  }
+
+  .writeup-layout__back a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    color: var(--color-text-primary);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    transition:
+      border-color 0.15s ease,
+      background 0.15s ease;
+  }
+
+  .writeup-layout__back a:hover {
+    border-color: var(--color-text-secondary);
+    background: var(--color-bg-secondary);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .writeup-layout__back a {
+      transition: none;
+    }
+  }
+
+  @media (max-width: 64rem) {
+    .writeup-layout__content--with-toc {
+      grid-template-columns: 1fr;
+    }
+
+    .writeup-layout__content--with-toc .writeup-layout__article,
+    .writeup-layout__content--with-toc .writeup-layout__toc--sidebar {
+      grid-column: 1;
+      grid-row: auto;
+    }
+
+    .writeup-layout__content--with-toc .writeup-layout__article {
+      max-width: none;
+    }
+
+    .writeup-layout__content--with-toc .writeup-layout__toc--sidebar {
+      position: static;
+      max-height: none;
+      overflow-y: visible;
+    }
+  }
+</style>

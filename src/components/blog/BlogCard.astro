@@ -1,14 +1,14 @@
 ---
-import type { CollectionEntry } from "astro:content";
 import { Card } from "../ui/index";
 import { resolveRoute } from "../../i18n/routes";
 import { type Locale } from "../../lib/site-config";
 import { t } from "../../i18n/ui";
 import TagList from "./TagList.astro";
 import BlogImageSVG from "./BlogImageSVG.astro";
+import type { ArticleLike } from "./types";
 
 export interface Props {
-  post: CollectionEntry<"blog">;
+  post: ArticleLike;
   variant?: "grid" | "list";
   locale?: Locale;
   /** Heading level for the card title; use "h2" when cards sit directly under the page h1. */

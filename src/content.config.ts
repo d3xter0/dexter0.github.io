@@ -77,6 +77,51 @@ const pages = defineCollection({
   }),
 });
 
+const writeups = defineCollection({
+  loader: glob({
+    pattern: "**/*.{md,mdx}",
+    base: "./src/content/writeups",
+    generateId: ({ entry }) => entry.replace(/\.[^/.]+$/, ""),
+  }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    locale: localeSchema,
+    publishDate: z.date(),
+    updatedAt: z.coerce.date().optional(),
+    draft: z.boolean().default(false),
+    featured: z.boolean().default(false),
+    tags: z.array(z.string()).default([]),
+    author: z.string().default("Admin"),
+    authorId: z.string().optional(),
+    uid: z
+      .string()
+      .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)
+      .optional(),
+    faqs: z
+      .array(z.object({ question: z.string(), answer: z.string() }))
+      .optional(),
+    toc: z.boolean().optional(),
+    svgSlug: z.string().optional(),
+    translationKey: z.string().optional(),
+    category: z.enum([
+      "ctf",
+      "web",
+      "api",
+      "htb",
+      "tryhackme",
+      "portswigger",
+      "bug-bounty",
+      "reverse",
+      "pwn",
+      "crypto",
+      "other",
+    ]),
+    platform: z.string().optional(),
+    difficulty: z.enum(["easy", "medium", "hard", "insane"]).optional(),
+  }),
+});
+
 const authors = defineCollection({
   loader: glob({
     pattern: "**/*.json",
@@ -124,6 +169,7 @@ export const collections = {
   blog,
   docs,
   pages,
+  writeups,
   settings,
   authors,
 };

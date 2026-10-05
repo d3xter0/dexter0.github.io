@@ -237,7 +237,9 @@
   "pages": [
     { "name": "About (root)", "path": "src/pages/index.astro", "locales": ["en"] },
     { "name": "Contact", "path": "src/pages/contact.astro", "locales": ["en"] },
-    { "name": "Blog", "path": "src/pages/blog.astro", "locales": ["en"] }
+    { "name": "Blog", "path": "src/pages/blog.astro", "locales": ["en"] },
+    { "name": "Writeups", "path": "src/pages/writeups.astro", "locales": ["en"] },
+    { "name": "Writeup detail", "path": "src/pages/writeups/[slug].astro", "locales": ["en"] }
   ]
 }
 

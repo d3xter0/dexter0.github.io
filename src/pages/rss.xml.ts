@@ -9,17 +9,7 @@ export async function GET() {
       (post: CollectionEntry<"blog">) =>
         post.data.locale === siteConfig.i18n.defaultLocale && !post.data.draft,
     )
-    .sort(
-      (a: CollectionEntry<"blog">, b: CollectionEntry<"blog">) =>
-        new Date(b.data.publishDate).getTime() -
-        new Date(a.data.publishDate).getTime(),
-    );
-
-  return rss({
-    title: siteConfig.name,
-    description: siteConfig.description,
-    site: siteConfig.url,
-    items: publishedPosts.map((post: CollectionEntry<"blog">) => ({
+    .map((post: CollectionEntry<"blog">) => ({
       title: post.data.title,
       description: post.data.description,
       link: `/blog/${post.id}`,
@@ -27,7 +17,35 @@ export async function GET() {
       categories: post.data.tags ?? [],
       author: post.data.author,
       customData: post.data.featured ? "<featured>true</featured>" : "",
-    })),
+    }));
+
+  const writeups: CollectionEntry<"writeups">[] =
+    await getCollection("writeups");
+  const publishedWriteups = writeups
+    .filter(
+      (writeup: CollectionEntry<"writeups">) =>
+        writeup.data.locale === siteConfig.i18n.defaultLocale &&
+        !writeup.data.draft,
+    )
+    .map((writeup: CollectionEntry<"writeups">) => ({
+      title: writeup.data.title,
+      description: writeup.data.description,
+      link: `/writeups/${writeup.id}`,
+      pubDate: writeup.data.publishDate,
+      categories: [writeup.data.category, ...(writeup.data.tags ?? [])],
+      author: writeup.data.author,
+      customData: writeup.data.featured ? "<featured>true</featured>" : "",
+    }));
+
+  const items = [...publishedPosts, ...publishedWriteups].sort(
+    (a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime(),
+  );
+
+  return rss({
+    title: siteConfig.name,
+    description: siteConfig.description,
+    site: siteConfig.url,
+    items,
     customData: `<language>${siteConfig.i18n.defaultLocale}</language>`,
   });
 }

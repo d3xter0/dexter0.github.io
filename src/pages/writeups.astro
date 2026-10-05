@@ -1,0 +1,276 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection, type CollectionEntry } from "astro:content";
+import { t } from "../i18n/ui";
+import { resolveRoute } from "../i18n/routes";
+import { siteConfig } from "../config/site.config";
+import { BlogCard } from "../components/blog/index";
+import Pagination from "../components/ui/data-display/Pagination/Pagination.astro";
+
+const locale = (Astro.currentLocale || "en") as "en";
+const searchParams = Astro.url.searchParams;
+const currentCategory = searchParams.get("category") ?? "";
+const currentPage = Math.max(1, Number(searchParams.get("page") || "1"));
+
+const allWriteups: CollectionEntry<"writeups">[] =
+  await getCollection("writeups");
+const writeups = allWriteups
+  .filter(
+    (w) =>
+      w.data.locale === locale && (import.meta.env.DEV || !w.data.draft),
+  )
+  .sort(
+    (a, b) =>
+      new Date(b.data.publishDate).getTime() -
+      new Date(a.data.publishDate).getTime(),
+  );
+
+const filteredWriteups = currentCategory
+  ? writeups.filter((w) => w.data.category === currentCategory)
+  : writeups;
+const featuredWriteup =
+  currentPage === 1
+    ? (filteredWriteups.find((w) => w.data.featured) ?? filteredWriteups[0])
+    : undefined;
+const gridWriteups = featuredWriteup
+  ? filteredWriteups.filter((w) => w.id !== featuredWriteup.id)
+  : filteredWriteups;
+const writeupsPerPage = siteConfig.blog.postsPerPage;
+const totalPages = Math.max(
+  1,
+  Math.ceil(gridWriteups.length / writeupsPerPage),
+);
+const pageWriteups = gridWriteups.slice(
+  (currentPage - 1) * writeupsPerPage,
+  currentPage * writeupsPerPage,
+);
+const categories = [...new Set(writeups.map((w) => w.data.category))].sort();
+---
+
+<BaseLayout
+  title={t(locale, "nav.writeups")}
+  description={t(locale, "nav.writeups")}
+  locale={locale}
+  path={resolveRoute(locale, "/writeups")}
+>
+  <main class="writeups-list container py-12">
+    <header class="writeups-list__hero">
+      <h1>{t(locale, "nav.writeups")}</h1>
+      <p class="writeups-list__lead">
+        Hands-on security writeups — CTF challenges, labs, and disclosed
+        findings.
+      </p>
+      <p class="writeups-list__count">
+        {filteredWriteups.length}
+        {filteredWriteups.length === 1 ? " writeup" : " writeups"}
+        {currentCategory && <> in <strong>#{currentCategory}</strong></>}
+      </p>
+    </header>
+
+    {
+      categories.length > 0 && (
+        <nav
+          class="writeups-list__categories"
+          aria-label={t(locale, "writeups.filterByCategory")}
+        >
+          <a
+            href={resolveRoute(locale, "/writeups")}
+            class={`writeup-chip${currentCategory ? "" : " writeup-chip--active"}`}
+          >
+            {t(locale, "writeups.all")}
+          </a>
+          {categories.map((category) => {
+            const active = currentCategory === category;
+            const href = active
+              ? resolveRoute(locale, "/writeups")
+              : `${resolveRoute(locale, "/writeups")}?category=${category}`;
+            return (
+              <a
+                href={href}
+                class={`writeup-chip${active ? " writeup-chip--active" : ""}`}
+              >
+                {category}
+              </a>
+            );
+          })}
+        </nav>
+      )
+    }
+
+    {
+      filteredWriteups.length === 0 && (
+        <div class="writeups-list__empty">
+          <p class="writeups-list__empty-title">
+            {t(locale, "writeups.noResults")}
+          </p>
+          <a
+            class="writeups-list__empty-cta"
+            href={resolveRoute(locale, "/writeups")}
+          >
+            {t(locale, "writeups.all")}
+          </a>
+        </div>
+      )
+    }
+
+    {
+      featuredWriteup && currentPage === 1 && (
+        <section class="writeups-list__featured" aria-label="Featured writeup">
+          <BlogCard
+            post={featuredWriteup}
+            variant="list"
+            locale={locale}
+            headingLevel="h2"
+          />
+        </section>
+      )
+    }
+
+    {
+      pageWriteups.length > 0 && (
+        <section class="writeups-list__grid">
+          {pageWriteups.map((writeup) => (
+            <BlogCard
+              post={writeup}
+              variant="grid"
+              locale={locale}
+              headingLevel="h2"
+            />
+          ))}
+        </section>
+      )
+    }
+
+    {
+      totalPages > 1 && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          basePath={resolveRoute(locale, "/writeups")}
+          query={currentCategory ? { category: currentCategory } : undefined}
+          locale={locale}
+        />
+      )
+    }
+  </main>
+</BaseLayout>
+
+<style>
+  .writeups-list {
+    display: grid;
+    gap: var(--space-xl);
+  }
+
+  .writeups-list__hero {
+    max-width: 48rem;
+    display: grid;
+    gap: var(--space-xs);
+  }
+
+  .writeups-list__hero h1 {
+    margin: 0;
+    font-size: clamp(2.25rem, 4vw, 3.5rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  .writeups-list__lead {
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-size: 1.0625rem;
+    line-height: 1.7;
+  }
+
+  .writeups-list__count {
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-size: 0.8125rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .writeups-list__count strong {
+    color: var(--color-text-primary);
+    font-weight: 600;
+  }
+
+  /* Filter bar */
+  .writeups-list__categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    padding-bottom: var(--space-lg);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .writeup-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.375rem 0.875rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    background: transparent;
+    color: var(--color-text-secondary);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    line-height: 1;
+    text-decoration: none;
+    transition:
+      color 0.15s ease,
+      border-color 0.15s ease,
+      background 0.15s ease;
+  }
+
+  .writeup-chip:hover {
+    color: var(--color-text-primary);
+    border-color: var(--color-text-secondary);
+  }
+
+  .writeup-chip--active {
+    background: var(--color-text-primary);
+    border-color: var(--color-text-primary);
+    color: var(--color-bg-primary);
+  }
+
+  .writeup-chip--active:hover {
+    color: var(--color-bg-primary);
+  }
+
+  /* Empty state */
+  .writeups-list__empty {
+    display: grid;
+    justify-items: center;
+    gap: var(--space-md);
+    padding: var(--space-3xl) var(--space-lg);
+    text-align: center;
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-2xl);
+  }
+
+  .writeups-list__empty-title {
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-size: 1.0625rem;
+  }
+
+  .writeups-list__empty-cta {
+    color: var(--color-brand-primary);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .writeups-list__empty-cta:hover {
+    text-decoration: underline;
+  }
+
+  .writeups-list__grid {
+    display: grid;
+    gap: var(--space-lg);
+    grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .writeup-chip {
+      transition: none;
+    }
+  }
+</style>

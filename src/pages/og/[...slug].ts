@@ -2,7 +2,7 @@ import type { CollectionEntry } from "astro:content";
 import { getCollection } from "astro:content";
 import { siteConfig } from "../../config/site.config";
 
-type OgKind = "home" | "page" | "blog" | "blog-list";
+type OgKind = "home" | "page" | "blog" | "blog-list" | "writeup" | "writeups-list";
 
 function escapeXml(value: string) {
   return value
@@ -80,6 +80,23 @@ function resolveMeta(kind: OgKind, locale: string, slug: string[]) {
     };
   }
 
+  if (kind === "writeups-list") {
+    return {
+      title: "Writeups",
+      description: "Hands-on security writeups — CTFs, labs, and disclosed findings.",
+      accent: siteConfig.branding.colors.secondary,
+    };
+  }
+
+  if (kind === "writeup") {
+    const writeup = WRITEUP_BY_ID[slug[1] ?? ""];
+    return {
+      title: writeup?.title ?? siteConfig.name,
+      description: writeup?.description ?? siteConfig.description,
+      accent: siteConfig.branding.colors.secondary,
+    };
+  }
+
   if (kind === "page") {
     const page = PAGE_BY_LOCALE_AND_SLUG[`${slug[0] ?? ""}/${slug[1] ?? ""}`];
     return {
@@ -96,15 +113,30 @@ function resolveMeta(kind: OgKind, locale: string, slug: string[]) {
   };
 }
 
-const [BLOG, PAGES] = (await Promise.all([
+const [BLOG, WRITEUPS, PAGES] = (await Promise.all([
   getCollection("blog"),
+  getCollection("writeups"),
   getCollection("pages"),
-])) as [CollectionEntry<"blog">[], CollectionEntry<"pages">[]];
+])) as [
+  CollectionEntry<"blog">[],
+  CollectionEntry<"writeups">[],
+  CollectionEntry<"pages">[],
+];
 
 const BLOG_BY_ID: Record<string, { title: string; description: string }> =
   Object.fromEntries(
     BLOG.filter((entry: CollectionEntry<"blog">) => !entry.data.draft).map(
       (entry: CollectionEntry<"blog">) => [
+        entry.id,
+        { title: entry.data.title, description: entry.data.description },
+      ],
+    ),
+  );
+
+const WRITEUP_BY_ID: Record<string, { title: string; description: string }> =
+  Object.fromEntries(
+    WRITEUPS.filter((entry: CollectionEntry<"writeups">) => !entry.data.draft).map(
+      (entry: CollectionEntry<"writeups">) => [
         entry.id,
         { title: entry.data.title, description: entry.data.description },
       ],
@@ -127,7 +159,7 @@ export async function getStaticPaths() {
     props: { kind: OgKind; locale: string; slug: string[] };
   }> = [];
 
-  const listKinds: OgKind[] = ["home", "blog-list"];
+  const listKinds: OgKind[] = ["home", "blog-list", "writeups-list"];
   for (const locale of siteConfig.i18n.locales) {
     for (const kind of listKinds) {
       paths.push({
@@ -144,6 +176,19 @@ export async function getStaticPaths() {
       params: { slug: `blog/${entry.data.locale}/${entry.id}` },
       props: {
         kind: "blog",
+        locale: entry.data.locale,
+        slug: [entry.data.locale, entry.id],
+      },
+    });
+  }
+
+  for (const entry of WRITEUPS.filter(
+    (writeup: CollectionEntry<"writeups">) => !writeup.data.draft,
+  )) {
+    paths.push({
+      params: { slug: `writeup/${entry.data.locale}/${entry.id}` },
+      props: {
+        kind: "writeup",
         locale: entry.data.locale,
         slug: [entry.data.locale, entry.id],
       },

@@ -1,12 +1,12 @@
 ---
-import type { CollectionEntry } from "astro:content";
 import TagList from "./TagList.astro";
 import BlogImageSVG from "./BlogImageSVG.astro";
+import type { ArticleLike } from "./types";
 import { type Locale } from "../../lib/site-config";
 import { t } from "../../i18n/ui";
 
 export interface Props {
-  post: CollectionEntry<"blog">;
+  post: ArticleLike;
   locale?: Locale;
 }
 

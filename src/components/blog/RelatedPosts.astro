@@ -1,12 +1,12 @@
 ---
-import type { CollectionEntry } from "astro:content";
 import BlogCard from "./BlogCard.astro";
+import type { ArticleLike } from "./types";
 import type { Locale } from "../../lib/site-config";
 import { t } from "../../i18n/ui";
 
 export interface Props {
-  currentPost: CollectionEntry<"blog">;
-  allPosts: CollectionEntry<"blog">[];
+  currentPost: ArticleLike;
+  allPosts: ArticleLike[];
   limit?: number;
   locale?: Locale;
 }

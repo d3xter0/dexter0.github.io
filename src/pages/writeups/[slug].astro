@@ -1,0 +1,26 @@
+---
+import WriteupLayout from "../../layouts/WriteupLayout.astro";
+import { getCollection, getEntry, render } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+
+export async function getStaticPaths() {
+  const allWriteups: CollectionEntry<"writeups">[] =
+    await getCollection("writeups");
+  return allWriteups
+    .filter((w) => w.data.locale === "en" && !w.data.draft)
+    .map((writeup) => ({
+      params: { slug: writeup.id },
+    }));
+}
+
+const { slug } = Astro.params as { slug: string };
+const writeup = await getEntry("writeups", slug);
+if (!writeup) return new Response(null, { status: 404 });
+
+const locale = "en";
+const { Content, headings } = await render(writeup);
+---
+
+<WriteupLayout writeup={writeup} locale={locale} headings={headings}>
+  <Content />
+</WriteupLayout>

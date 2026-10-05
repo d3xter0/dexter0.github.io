@@ -21,6 +21,7 @@ export interface NavItem {
 export const mainNav: NavItem[] = [
   { href: "/", labelKey: "nav.about" },
   { href: "/blog", labelKey: "nav.blog" },
+  { href: "/writeups", labelKey: "nav.writeups" },
   { href: "/contact", labelKey: "nav.contact" },
 ] as const;
 
@@ -29,6 +30,7 @@ export const footerNav = {
   /** Site sections */
   explore: [
     { href: "/blog", labelKey: "nav.blog" },
+    { href: "/writeups", labelKey: "nav.writeups" },
     { href: "/contact", labelKey: "nav.contact" },
   ] as const,
   /** Legal pages and terms */
