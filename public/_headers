@@ -6,7 +6,7 @@
 # - style-src: self + inline (Tailwind generates inline styles)
 # - frame-src: Google Maps embed on the contact page
 # - connect-src: self + Google Analytics (optional)
-# - img-src: self, data:, and HTTPS images (R2 media)
+# - img-src: self, data:, and HTTPS images
 # - font-src: self + data: (bundled fonts)
 # - object-src 'none', base-uri 'self', form-action 'self', frame-ancestors 'none'
 

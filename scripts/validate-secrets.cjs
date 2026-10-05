@@ -96,7 +96,6 @@ const SKIP_PATTERNS = [
   'node_modules',
   '.git',
   'dist',
-  '.wrangler',
   'pnpm-lock.yaml',
   'CHANGELOG.md', // May contain example values in docs
 ];
@@ -200,7 +199,7 @@ function main() {
     console.log(`❌ ${critical.length} critical + ${high.length} high severity findings — commit blocked.\n`);
     console.log('Fix by:');
     console.log('  1. Remove the secret from the file');
-    console.log('  2. Add it to .dev.vars (local) or Cloudflare Pages secrets (production)');
+    console.log('  2. Add it to a gitignored local env file or your hosting provider\'s secret settings');
     console.log('  3. If it was committed, rotate the secret immediately');
     process.exit(1);
   } else {

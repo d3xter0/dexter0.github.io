@@ -1,5 +1,5 @@
 /**
- * Image pipeline — R2-backed, preset-driven responsive images.
+ * Image pipeline — preset-driven responsive images.
  *
  * Transformation presets define approved variants for public consumption.
  * Arbitrary transformation parameters are rejected (fail closed).
@@ -78,7 +78,7 @@ export const PRESET_NAMES: PresetName[] = Object.keys(PRESETS) as PresetName[];
  *   https://assets.example.com/cdn-cgi/image/.../uploads/...
  *
  * @param preset  Approved preset name
- * @param source  R2 object key (e.g. "uploads/2026/06/photo.webp")
+ * @param source  Media object key (e.g. "uploads/2026/06/photo.webp")
  * @param baseUrl Asset domain base (from environment config)
  * @returns       Transformed URL or null if preset is unknown
  */
@@ -120,16 +120,4 @@ export function srcset(
     })
     .filter(Boolean)
     .join(", ");
-}
-
-/**
- * Check if a given image URL is from an R2 source (not an external URL).
- */
-export function isR2Url(url: string, assetDomain: string): boolean {
-  try {
-    const parsed = new URL(url, assetDomain);
-    return parsed.hostname === new URL(assetDomain).hostname;
-  } catch {
-    return false;
-  }
 }

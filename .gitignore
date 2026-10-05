@@ -5,7 +5,6 @@ node_modules/
 .DS_Store
 .env*
 !.env.example
-.dev.vars
 .agent-skills.lock.md
 
 # Build artifacts
@@ -35,9 +34,6 @@ Thumbs.db
 
 # Cloud
 .redwood
-.cloudflare
-cloudflare-pages-report.html
-.wrangler/
 
 # Dev verification artifacts
 screenshots/
