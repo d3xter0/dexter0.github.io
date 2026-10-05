@@ -1,5 +1,5 @@
 ---
-title: "SAMPLE — Retired Machine Walkthrough (Sample Writeup)"
+title: "CCTV - HTB Writeup"
 description: "A sample writeup that proves the writeups pipeline works end to end. Replace or delete this file once real writeups land."
 locale: en
 publishDate: 2026-10-05
@@ -11,6 +11,7 @@ category: htb
 platform: "Hack The Box"
 difficulty: easy
 toc: true
+image: /public/cctv.png
 ---
 
 > [!NOTE]
