@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { siteConfig } from "../config/site.config";
 
 test.describe("navigation chrome", () => {
   test("homepage loads with nav links", async ({ page }) => {
@@ -8,7 +9,7 @@ test.describe("navigation chrome", () => {
     // Positive proof we're on this site, not a colliding dev server on 4321
     await expect(page.locator(".logo").first()).toHaveAttribute(
       "aria-label",
-      "Astro Cloudflare",
+      siteConfig.name,
       { timeout: 30_000 },
     );
     await expect(page.locator(".header__list a").first()).toBeVisible({

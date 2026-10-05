@@ -3,7 +3,7 @@ import { t, translations } from "../../i18n/ui";
 
 describe("t()", () => {
   it("returns the English string for a known key", () => {
-    expect(t("en", "nav.home")).toBe("Home");
+    expect(t("en", "nav.about")).toBe("About");
   });
 
   it("returns the key as fallback when missing", () => {

@@ -8,9 +8,6 @@ import { stripLocale, localePrefix } from "./routes";
  */
 const EQUIVALENT_ROUTES: Record<string, boolean> = {
   "/": true,
-  "/about": true,
-  "/services": true,
-  "/pricing": true,
   "/blog": true,
   "/contact": true,
   "/privacy": true,
@@ -22,7 +19,7 @@ const EQUIVALENT_ROUTES: Record<string, boolean> = {
  * and target locale. Uses the translation key mapping to find
  * equivalent content items.
  *
- * Example: getEquivalentPath("/id/services", "en") → "/en/services"
+ * Example: getEquivalentPath("/id/blog", "en") → "/en/blog"
  */
 export function getEquivalentPath(
   currentPath: string,

@@ -13,8 +13,8 @@ export function localePrefix(locale: Locale): string {
 
 /**
  * Resolve a full localized route path.
- * Example: resolveRoute("en", "/services") → "/services"
- *          resolveRoute("id", "/services") → "/id/services"
+ * Example: resolveRoute("en", "/blog") → "/blog"
+ *          resolveRoute("id", "/blog") → "/id/blog"
  */
 export function resolveRoute(locale: Locale, path: string): string {
   const prefix = localePrefix(locale);
@@ -24,7 +24,7 @@ export function resolveRoute(locale: Locale, path: string): string {
 
 /**
  * Strip locale prefix from a path to get the content key.
- * Example: stripLocale("/en/services") → "/services"
+ * Example: stripLocale("/en/blog") → "/blog"
  */
 export function stripLocale(path: string): string {
   for (const loc of SITE_CONFIG.locales) {

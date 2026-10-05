@@ -10,10 +10,7 @@ interface LlmLink {
 }
 
 const corePages: LlmLink[] = [
-  { label: "Home", path: "/", description: "Production-ready marketing homepage." },
-  { label: "About", path: "/about", description: "Project background and overview." },
-  { label: "Services", path: "/services", description: "Service offerings." },
-  { label: "Pricing", path: "/pricing", description: "Plans and pricing tiers." },
+  { label: "About", path: "/", description: "Project background and overview." },
   { label: "Contact", path: "/contact", description: "Contact details." },
   { label: "Blog", path: "/blog", description: "Articles and updates." },
   { label: "Documentation", path: "/docs", description: "Setup and usage guides." },
@@ -22,7 +19,6 @@ const corePages: LlmLink[] = [
 const stack: LlmLink[] = [
   { label: "Astro", path: "https://astro.build", description: "Static site generator for fast content sites." },
   { label: "Starlight", path: "https://starlight.astro.build", description: "Documentation framework for Astro." },
-  { label: "Cloudflare Pages", path: "https://pages.cloudflare.com", description: "Edge deployment with optional R2 storage." },
 ];
 
 export const GET: APIRoute = () => {

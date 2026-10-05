@@ -41,7 +41,7 @@ const githubUrl = siteConfig.socialLinks.find(
 
     <nav
       class="header__desktop-nav"
-      aria-label={t(effectiveLocale, "nav.home")}
+      aria-label={t(effectiveLocale, "nav.main")}
     >
       <ul class="header__list">
         {
@@ -134,7 +134,7 @@ const githubUrl = siteConfig.socialLinks.find(
   </div>
 
   <div id="header-mobile-menu" class="header__mobile" data-menu-panel hidden>
-    <nav aria-label={t(effectiveLocale, "nav.home")}>
+    <nav aria-label={t(effectiveLocale, "nav.main")}>
       <ul class="header__mobile-list">
         {
           navLinks.map((item) => (

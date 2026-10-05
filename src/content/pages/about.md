@@ -25,9 +25,9 @@ sections:
         icon: git-branch
   - type: cta
     title: Ready to build?
-    content: Explore the services or browse the docs to get started.
-    ctaText: View services
-    ctaHref: /services
+    content: Explore the blog or browse the docs to get started.
+    ctaText: Read the blog
+    ctaHref: /blog
 isLegal: false
 order: 1
 ---

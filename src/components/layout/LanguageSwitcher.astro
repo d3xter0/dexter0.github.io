@@ -13,7 +13,7 @@ const { currentLocale, currentPath } = Astro.props as Props;
 // reappears automatically once SITE_CONFIG.locales has more than one entry.
 const targetLocale = SITE_CONFIG.locales.find(
   (locale) => locale !== currentLocale,
-);
+) as Locale | undefined;
 const href = targetLocale ? getEquivalentPath(currentPath, targetLocale) : "#";
 ---
 

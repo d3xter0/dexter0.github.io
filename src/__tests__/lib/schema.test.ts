@@ -6,7 +6,6 @@ import {
   buildBlogPostingSchema,
   buildFAQSchema,
   buildBreadcrumbSchema,
-  buildServiceSchema,
 } from "../../lib/schema";
 import { siteConfig } from "../../config/site.config";
 
@@ -104,22 +103,5 @@ describe("buildBreadcrumbSchema", () => {
     expect(schema.itemListElement).toHaveLength(2);
     expect(schema.itemListElement[0].position).toBe(1);
     expect(schema.itemListElement[1].position).toBe(2);
-  });
-});
-
-describe("buildServiceSchema", () => {
-  it("builds a Service schema with provider", () => {
-    const service = {
-      data: {
-        title: "Cloud Deployment",
-        description: "Fast deploys",
-        slug: "cloud-deployment",
-      },
-    };
-    const schema = buildServiceSchema(service, siteConfig);
-    expect(schema["@type"]).toBe("Service");
-    expect(schema.name).toBe("Cloud Deployment");
-    expect(schema.url).toBe(`${siteConfig.url}/services/cloud-deployment`);
-    expect(schema.provider?.["@type"]).toBe("Organization");
   });
 });

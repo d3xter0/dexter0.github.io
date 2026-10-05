@@ -33,10 +33,10 @@ const socialIcon = (url: string) => {
       </div>
 
       <div class="footer__column">
-        <h2>{t(currentLocale, "nav.services")}</h2>
+        <h2>{t(currentLocale, "footer.explore")}</h2>
         <ul>
           {
-            footerNav.product.map((item) => (
+            footerNav.explore.map((item) => (
               <li>
                 <a href={resolveRoute(currentLocale, item.href)}>
                   {t(currentLocale, item.labelKey)}
@@ -48,7 +48,7 @@ const socialIcon = (url: string) => {
       </div>
 
       <div class="footer__column">
-        <h2>{t(currentLocale, "nav.contact")}</h2>
+        <h2>{t(currentLocale, "footer.legal")}</h2>
         <ul>
           {
             footerNav.legal.map((item) => (
@@ -114,7 +114,7 @@ const socialIcon = (url: string) => {
   .footer__grid {
     display: grid;
     gap: var(--space-xl);
-    grid-template-columns: 1.5fr repeat(3, minmax(0, 1fr));
+    grid-template-columns: 1.5fr repeat(2, minmax(0, 1fr));
   }
 
   .footer__brand p {

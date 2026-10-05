@@ -197,10 +197,17 @@
       "i18nAware": true
     },
     {
-      "name": "ServiceCard",
+      "name": "TagList",
       "tier": "component",
-      "path": "src/components/services/ServiceCard.astro",
-      "props": ["service", "locale", "headingLevel"],
+      "path": "src/components/blog/TagList.astro",
+      "props": ["tags", "basePath", "locale"],
+      "i18nAware": true
+    },
+    {
+      "name": "TableOfContents",
+      "tier": "component",
+      "path": "src/components/blog/TableOfContents.astro",
+      "props": ["headings", "layout", "maxDepth", "minHeadings", "title", "locale"],
       "i18nAware": true
     }
   ],
@@ -213,53 +220,10 @@
       "i18nAware": true
     },
     {
-      "name": "FeatureTabs",
-      "tier": "section",
-      "path": "src/components/landing/FeatureTabs.tsx",
-      "props": ["tabs"],
-      "island": "react",
-      "i18nAware": true
-    },
-    {
-      "name": "StackMarquee",
-      "tier": "section",
-      "path": "src/components/landing/StackMarquee.astro",
-      "props": ["items", "pauseOnHover"],
-      "i18nAware": false
-    },
-    {
-      "name": "TechStack",
-      "tier": "section",
-      "path": "src/components/landing/TechStack.astro",
-      "props": ["items"],
-      "i18nAware": false
-    },
-    {
-      "name": "Credibility",
-      "tier": "section",
-      "path": "src/components/landing/Credibility.astro",
-      "props": ["stats", "logos"],
-      "i18nAware": true
-    },
-    {
-      "name": "LighthouseScores",
-      "tier": "section",
-      "path": "src/components/landing/LighthouseScores.astro",
-      "props": ["scores"],
-      "i18nAware": false
-    },
-    {
       "name": "CTA",
       "tier": "section",
       "path": "src/components/ui/marketing/CTA/CTA.astro",
       "props": ["eyebrow", "title", "content", "primaryText", "primaryHref", "secondaryText", "secondaryHref", "centered"],
-      "i18nAware": true
-    },
-    {
-      "name": "SocialProof",
-      "tier": "section",
-      "path": "src/components/ui/marketing/SocialProof/SocialProof.astro",
-      "props": ["title", "items"],
       "i18nAware": true
     },
     {
@@ -268,59 +232,12 @@
       "path": "src/components/FeatureGrid.astro",
       "props": ["title", "features", "columns"],
       "i18nAware": true
-    },
-    {
-      "name": "FAQ",
-      "tier": "section",
-      "path": "src/components/FAQ.astro",
-      "props": ["title", "items"],
-      "i18nAware": true
-    },
-    {
-      "name": "Newsletter",
-      "tier": "section",
-      "path": "src/components/sections/Newsletter.astro",
-      "props": ["title", "description", "placeholder", "buttonLabel", "action"],
-      "i18nAware": true
-    },
-    {
-      "name": "Pricing",
-      "tier": "section",
-      "path": "src/components/sections/Pricing.astro",
-      "props": ["title", "description", "plans"],
-      "i18nAware": true
-    },
-    {
-      "name": "Team",
-      "tier": "section",
-      "path": "src/components/sections/Team.astro",
-      "props": ["title", "description", "members"],
-      "i18nAware": true
-    },
-    {
-      "name": "Comparison",
-      "tier": "section",
-      "path": "src/components/sections/Comparison.astro",
-      "props": ["title", "description", "columns", "rows"],
-      "i18nAware": true
-    },
-    {
-      "name": "LogoCloud",
-      "tier": "section",
-      "path": "src/components/sections/LogoCloud.astro",
-      "props": ["title", "logos"],
-      "i18nAware": true
     }
   ],
   "pages": [
-    { "name": "Home", "path": "src/pages/index.astro", "locales": ["en"] },
-    { "name": "About", "path": "src/pages/about.astro", "locales": ["en"] },
-    { "name": "Services", "path": "src/pages/services.astro", "locales": ["en"] },
-    { "name": "Pricing", "path": "src/pages/pricing.astro", "locales": ["en"] },
+    { "name": "About (root)", "path": "src/pages/index.astro", "locales": ["en"] },
     { "name": "Contact", "path": "src/pages/contact.astro", "locales": ["en"] },
-    { "name": "Blog", "path": "src/pages/blog.astro", "locales": ["en"] },
-    { "name": "Sections showcase", "path": "src/pages/sections.astro", "locales": ["en"] },
-    { "name": "Pages overview", "path": "src/pages/pages.astro", "locales": ["en"] }
+    { "name": "Blog", "path": "src/pages/blog.astro", "locales": ["en"] }
   ]
 }
 

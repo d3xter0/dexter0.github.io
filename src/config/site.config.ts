@@ -43,12 +43,6 @@ export interface SiteConfig {
     tagCloudLimit: number;
   };
 
-  /* Services configuration */
-  services: {
-    perPage: number;
-    tagCloudLimit: number;
-  };
-
   /* Article features */
   articleFeatures: {
     toc: {
@@ -149,12 +143,6 @@ export const siteConfig: SiteConfig = {
   /* Blog configuration */
   blog: {
     postsPerPage: 10,
-    tagCloudLimit: 20,
-  },
-
-  /* Services configuration */
-  services: {
-    perPage: 12,
     tagCloudLimit: 20,
   },
 

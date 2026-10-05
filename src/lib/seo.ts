@@ -105,29 +105,6 @@ export function jsonLdOrganization() {
 }
 
 /**
- * JSON-LD Service schema (service detail pages).
- */
-export function jsonLdService(service: {
-  name: string;
-  description: string;
-  locale: string;
-  url: string;
-}) {
-  return {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    name: service.name,
-    description: service.description,
-    url: service.url,
-    inLanguage: service.locale,
-    provider: {
-      "@type": "Organization",
-      name: siteConfig.name,
-    },
-  };
-}
-
-/**
  * JSON-LD FAQ schema (FAQ sections).
  */
 export function jsonLdFAQ(

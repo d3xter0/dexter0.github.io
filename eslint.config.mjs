@@ -6,7 +6,9 @@ import globals from "globals";
 import prettier from "eslint-config-prettier";
 
 export default [
-  { ignores: ["dist/", ".astro/", "scripts/", "**/*.d.ts", "**/*.cjs"] },
+  // Analytics.astro crashes eslint-plugin-astro's preprocessor (null 'start')
+  // on its inline set:html scripts — excluded until that is fixed upstream.
+  { ignores: ["dist/", ".astro/", "scripts/", "**/*.d.ts", "**/*.cjs", "src/components/layout/Analytics.astro"] },
 
   js.configs.recommended,
   ...tseslint.configs.recommended,

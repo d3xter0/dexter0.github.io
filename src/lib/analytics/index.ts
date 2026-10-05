@@ -23,7 +23,6 @@ export interface AnalyticsEvent {
 export const EVENTS = {
   PAGE_VIEW: "page_view",
   CONTACT_SUBMIT: "contact_submit",
-  SERVICE_VIEW: "service_view",
   CTA_CLICK: "cta_click",
   LOCALE_SWITCH: "locale_switch",
 } as const;

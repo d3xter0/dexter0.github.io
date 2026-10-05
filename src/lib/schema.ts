@@ -4,7 +4,6 @@ import type {
   FAQPage,
   Organization,
   Person,
-  Service,
   WebSite,
   WithContext,
 } from "schema-dts";
@@ -135,31 +134,4 @@ export function buildBreadcrumbSchema(
       item: crumb.href,
     })),
   } satisfies WithContext<BreadcrumbList>;
-}
-
-export function buildServiceSchema(
-  service: {
-    data: {
-      title: string;
-      description: string;
-      slug: string;
-      locale?: string;
-      priceRange?: string;
-      tags?: string[];
-    };
-  },
-  site: SiteConfig = defaultSiteConfig,
-) {
-  return {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    name: service.data.title,
-    description: service.data.description,
-    url: `${site.url}/services/${service.data.slug}`,
-    provider: {
-      "@type": "Organization",
-      name: site.name,
-      url: site.url,
-    },
-  } satisfies WithContext<Service>;
 }
