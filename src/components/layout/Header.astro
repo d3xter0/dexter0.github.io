@@ -5,6 +5,7 @@ import { t } from "../../i18n/ui";
 import { resolveRoute, detectLocale, stripLocale } from "../../i18n/routes";
 import { mainNav } from "../../config/nav.config";
 import { siteConfig } from "../../config/site.config";
+import { socialIconFor } from "../../lib/social-icons";
 import Logo from "./Logo.astro";
 import LanguageSwitcher from "./LanguageSwitcher.astro";
 import ThemeToggle from "./ThemeToggle.astro";
@@ -30,9 +31,9 @@ const navLinks = mainNav.map((item) => ({
   active: contentPath === item.href,
 }));
 
-const githubUrl = siteConfig.socialLinks.find(
-  (link) => link.platform === "github",
-)?.url;
+const headerSocials = siteConfig.header.showSocialLinks
+  ? siteConfig.socialLinks
+  : [];
 ---
 
 <header class="header" data-header>
@@ -81,21 +82,21 @@ const githubUrl = siteConfig.socialLinks.find(
 
     <div class="header__actions">
       {
-        githubUrl && (
+        headerSocials.map((link) => (
           <a
-            href={githubUrl}
-            class="header__icon-button header__github"
-            target="_blank"
+            href={link.url}
+            class="header__icon-button header__social"
+            target={link.url.startsWith("http") ? "_blank" : undefined}
             rel="noopener noreferrer"
-            aria-label="View source on GitHub"
+            aria-label={link.label ?? link.platform}
           >
             <Icon
-              name="simple-icons:github"
+              name={socialIconFor(link.platform, link.url)}
               class="header__icon"
               aria-hidden="true"
             />
           </a>
-        )
+        ))
       }
       <button
         type="button"
@@ -334,9 +335,16 @@ const githubUrl = siteConfig.socialLinks.find(
     padding-inline: 0.75rem;
   }
 
-  .header__github {
+  .header__social {
     width: 2.5rem;
     padding-inline: 0;
+  }
+
+  /* The keyboard hint and social buttons crowd small screens. */
+  @media (max-width: 30rem) {
+    .header__social {
+      display: none;
+    }
   }
 
   .header__icon {

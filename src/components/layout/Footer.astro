@@ -5,6 +5,7 @@ import { footerNav } from "../../config/nav.config";
 import { t } from "../../i18n/ui";
 import { resolveRoute } from "../../i18n/routes";
 import type { Locale } from "../../lib/site-config";
+import { socialIconFor } from "../../lib/social-icons";
 import Logo from "./Logo.astro";
 
 export interface Props {
@@ -13,15 +14,6 @@ export interface Props {
 
 const { currentLocale } = Astro.props as Props;
 const year = new Date().getFullYear();
-
-const socialIcon = (url: string) => {
-  if (url.includes("github.com")) return "lucide:github";
-  if (url.includes("twitter.com") || url.includes("x.com"))
-    return "lucide:twitter";
-  if (url.includes("linkedin.com")) return "lucide:linkedin";
-  if (url.startsWith("mailto:")) return "lucide:mail";
-  return "lucide:link";
-};
 ---
 
 <footer class="footer">
@@ -74,7 +66,7 @@ const socialIcon = (url: string) => {
                     target={link.url.startsWith("http") ? "_blank" : undefined}
                     rel="noreferrer"
                   >
-                    <Icon name={socialIcon(link.url)} />
+                    <Icon name={socialIconFor(link.platform, link.url)} />
                     <span>{link.label ?? link.platform}</span>
                   </a>
                 </li>
