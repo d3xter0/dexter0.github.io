@@ -91,28 +91,46 @@ export interface SiteConfig {
 export const siteConfig: SiteConfig = {
   /* Core configuration — single source of truth for canonical/OG/sitemap/llms.txt.
    * Replace with your production domain when forking this template. */
-  url: "https://astro-cloudflare-starter.pages.dev",
-  name: "Astro Cloudflare",
+  url: "https://d3xter0.github.io",
+  name: "Ahmed Gamal",
   description:
-    "Marketing, blog, and docs starter built with Astro and Cloudflare Pages — multilanguage-ready",
-  author: "Milzam",
-  email: "milzamsz@gmail.com",
+    `Hey, I’m Ahmed — A cybersecurity enthusiast focused on offensive security, penetration testing, and security research.
+     I spend most of my time breaking things, understanding how they work, and learning how to make them more secure. 
+     My interests include Web Security, API Pentesting, Network & Mobile security, Active Directory, and CTF challenges.
+     This blog is where I document my journey, share CTF writeups, technical research, useful notes, and things I discover while learning and experimenting.`,
+  author: "dexter",
+  email: "ahmed.gamal113296@gmail.com",
   authorImage: "/images/author.jpg",
 
   /* Social links */
   socialLinks: [
-    {
-      platform: "github",
-      url: "https://github.com/milzamsz/astro-cloudflare-starter",
-      label: "GitHub",
-    },
-    {
-      platform: "linkedin",
-      url: "https://www.linkedin.com/in/milzamsz/",
-      label: "LinkedIn",
-    },
-    { platform: "email", url: "mailto:milzamsz@gmail.com", label: "Email" },
-  ],
+  {
+    platform: "github",
+    url: "https://github.com/d3xter0",
+    label: "GitHub",
+  },
+  {
+    platform: "linkedin",
+    url: "https://www.linkedin.com/in/ahmed-gamal-ag113",
+    label: "LinkedIn",
+  },
+  {
+    platform: "x",
+    url: "https://x.com/dexxx1122",
+    label: "X",
+  },
+  {
+    platform: "htb",
+    url: "https://app.hackthebox.com/users/2011633",
+    label: "Hack The Box",
+  },
+  {
+    platform: "discord",
+    url: "https://discord.com/users/dex0x01",
+    label: "Discord",
+  },
+  { platform: "email", url: "mailto:ahmed.gamal113296@gmail.com", label: "Email" },
+],
 
   /* Header settings */
   header: {
