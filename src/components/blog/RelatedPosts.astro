@@ -9,6 +9,8 @@ export interface Props {
   allPosts: ArticleLike[];
   limit?: number;
   locale?: Locale;
+  /** Section path forwarded to the cards (e.g. "/blog" or "/writeups"). */
+  basePath?: string;
 }
 
 const {
@@ -16,6 +18,7 @@ const {
   allPosts,
   limit = 3,
   locale = currentPost.data.locale,
+  basePath = "/blog",
 } = Astro.props as Props;
 const currentTags = new Set(currentPost.data.tags ?? []);
 const relatedPosts = allPosts
@@ -51,6 +54,7 @@ const relatedPosts = allPosts
             post={entry}
             variant="grid"
             locale={currentPost.data.locale}
+            basePath={basePath}
           />
         ))}
       </div>

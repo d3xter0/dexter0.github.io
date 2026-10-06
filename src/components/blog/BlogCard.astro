@@ -13,6 +13,8 @@ export interface Props {
   locale?: Locale;
   /** Heading level for the card title; use "h2" when cards sit directly under the page h1. */
   headingLevel?: "h2" | "h3";
+  /** Section path the card links to (e.g. "/blog" or "/writeups"). */
+  basePath?: string;
 }
 
 const {
@@ -20,6 +22,7 @@ const {
   variant = "grid",
   locale = post.data.locale,
   headingLevel = "h3",
+  basePath = "/blog",
 } = Astro.props as Props;
 const Heading = headingLevel;
 const publishDate = new Date(post.data.publishDate);
@@ -31,7 +34,7 @@ const excerpt =
   post.data.description.length > 180
     ? `${post.data.description.slice(0, 177)}...`
     : post.data.description;
-const href = resolveRoute(locale, `/blog/${post.id}`);
+const href = resolveRoute(locale, `${basePath}/${post.id}`);
 const dateLabel = publishDate.toLocaleDateString("en-US", {
   year: "numeric",
   month: "short",
@@ -64,7 +67,7 @@ const dateLabel = publishDate.toLocaleDateString("en-US", {
     </p>
     <Heading class="blog-card__title"><a href={href}>{post.data.title}</a></Heading>
     <p class="blog-card__excerpt">{excerpt}</p>
-    <TagList tags={post.data.tags ?? []} locale={locale} />
+    <TagList tags={post.data.tags ?? []} basePath={basePath} locale={locale} />
   </div>
 </Card>
 

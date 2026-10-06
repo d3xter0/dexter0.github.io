@@ -10,7 +10,15 @@ import Pagination from "../components/ui/data-display/Pagination/Pagination.astr
 const locale = (Astro.currentLocale || "en") as "en";
 const searchParams = Astro.url.searchParams;
 const currentCategory = searchParams.get("category") ?? "";
+const currentTag = searchParams.get("tag") ?? "";
 const currentPage = Math.max(1, Number(searchParams.get("page") || "1"));
+const slugify = (value: string) =>
+  value
+    .trim()
+    .toLowerCase()
+    .replace(/['"]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 
 const allWriteups: CollectionEntry<"writeups">[] =
   await getCollection("writeups");
@@ -25,9 +33,15 @@ const writeups = allWriteups
       new Date(a.data.publishDate).getTime(),
   );
 
-const filteredWriteups = currentCategory
-  ? writeups.filter((w) => w.data.category === currentCategory)
-  : writeups;
+const filteredWriteups = writeups.filter((w) => {
+  if (currentCategory && w.data.category !== currentCategory) return false;
+  if (
+    currentTag &&
+    !(w.data.tags ?? []).some((tag: string) => slugify(tag) === currentTag)
+  )
+    return false;
+  return true;
+});
 const featuredWriteup =
   currentPage === 1
     ? (filteredWriteups.find((w) => w.data.featured) ?? filteredWriteups[0])
@@ -64,6 +78,7 @@ const categories = [...new Set(writeups.map((w) => w.data.category))].sort();
         {filteredWriteups.length}
         {filteredWriteups.length === 1 ? " writeup" : " writeups"}
         {currentCategory && <> in <strong>#{currentCategory}</strong></>}
+        {currentTag && <> tagged <strong>#{currentTag}</strong></>}
       </p>
     </header>
 
@@ -121,6 +136,7 @@ const categories = [...new Set(writeups.map((w) => w.data.category))].sort();
             variant="list"
             locale={locale}
             headingLevel="h2"
+            basePath="/writeups"
           />
         </section>
       )
@@ -135,6 +151,7 @@ const categories = [...new Set(writeups.map((w) => w.data.category))].sort();
               variant="grid"
               locale={locale}
               headingLevel="h2"
+              basePath="/writeups"
             />
           ))}
         </section>
@@ -147,7 +164,14 @@ const categories = [...new Set(writeups.map((w) => w.data.category))].sort();
           currentPage={currentPage}
           totalPages={totalPages}
           basePath={resolveRoute(locale, "/writeups")}
-          query={currentCategory ? { category: currentCategory } : undefined}
+          query={
+            currentCategory || currentTag
+              ? {
+                  ...(currentCategory ? { category: currentCategory } : {}),
+                  ...(currentTag ? { tag: currentTag } : {}),
+                }
+              : undefined
+          }
           locale={locale}
         />
       )

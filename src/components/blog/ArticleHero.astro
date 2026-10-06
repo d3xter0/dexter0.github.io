@@ -8,9 +8,12 @@ import { t } from "../../i18n/ui";
 export interface Props {
   post: ArticleLike;
   locale?: Locale;
+  /** Section path used for tag links (e.g. "/blog" or "/writeups"). */
+  basePath?: string;
 }
 
-const { post, locale = post.data.locale } = Astro.props as Props;
+const { post, locale = post.data.locale, basePath = "/blog" } =
+  Astro.props as Props;
 const publishDate = new Date(post.data.publishDate);
 const readingTime = Math.max(
   1,
@@ -38,7 +41,7 @@ const dateLabel = publishDate.toLocaleDateString("en-US", {
       </span>
     </div>
 
-    <TagList tags={post.data.tags ?? []} locale={locale} />
+    <TagList tags={post.data.tags ?? []} basePath={basePath} locale={locale} />
   </div>
 
   <figure class="article-hero__media">

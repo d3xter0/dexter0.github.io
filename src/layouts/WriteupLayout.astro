@@ -88,7 +88,7 @@ const allWriteups = await getCollection("writeups");
   />
 
   <article class="writeup-layout container py-12">
-    <ArticleHero post={writeup} locale={locale} />
+    <ArticleHero post={writeup} locale={locale} basePath="/writeups" />
 
     <Alert variant="info" class="writeup-layout__note">
       {t(locale, "writeups.note")}
@@ -144,6 +144,7 @@ const allWriteups = await getCollection("writeups");
       currentPost={writeup}
       allPosts={allWriteups}
       locale={locale}
+      basePath="/writeups"
     />
 
     <nav class="writeup-layout__back">
