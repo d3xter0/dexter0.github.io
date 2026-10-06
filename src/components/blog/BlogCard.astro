@@ -41,7 +41,19 @@ const dateLabel = publishDate.toLocaleDateString("en-US", {
 
 <Card hover={true} class={`blog-card blog-card--${variant}`}>
   <a slot="header" class="blog-card__media" href={href} aria-hidden="true" tabindex="-1">
-    <BlogImageSVG slug={post.data.svgSlug ?? post.id} title={post.data.title} />
+    {
+      post.data.image ? (
+        <img
+          src={post.data.image}
+          alt=""
+          loading="lazy"
+          width="1200"
+          height="630"
+        />
+      ) : (
+        <BlogImageSVG slug={post.data.svgSlug ?? post.id} title={post.data.title} />
+      )
+    }
   </a>
   <div class="blog-card__body">
     {variant === "list" && <span class="blog-card__kicker">Featured</span>}
@@ -71,6 +83,18 @@ const dateLabel = publishDate.toLocaleDateString("en-US", {
   .blog-card__media :global(svg) {
     border-bottom: 1px solid var(--color-border);
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .blog-card__media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-bottom: 1px solid var(--color-border);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .blog-card:hover .blog-card__media :global(img) {
+    transform: scale(1.03);
   }
 
   .blog-card:hover .blog-card__media :global(svg) {
@@ -156,6 +180,12 @@ const dateLabel = publishDate.toLocaleDateString("en-US", {
     border-right: 1px solid var(--color-border);
   }
 
+  :global(.blog-card--list) .blog-card__media :global(img) {
+    height: 100%;
+    border-bottom: none;
+    border-right: 1px solid var(--color-border);
+  }
+
   :global(.blog-card--list .ui-card__body) {
     align-content: center;
     gap: var(--space-md);
@@ -183,6 +213,11 @@ const dateLabel = publishDate.toLocaleDateString("en-US", {
     }
 
     :global(.blog-card--list) .blog-card__media :global(svg) {
+      border-right: none;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    :global(.blog-card--list) .blog-card__media :global(img) {
       border-right: none;
       border-bottom: 1px solid var(--color-border);
     }

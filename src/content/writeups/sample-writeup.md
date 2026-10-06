@@ -11,7 +11,7 @@ category: htb
 platform: "Hack The Box"
 difficulty: easy
 toc: true
-image: /public/cctv.png
+image: /cctv.png
 ---
 
 > [!NOTE]

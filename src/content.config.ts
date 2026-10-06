@@ -119,6 +119,8 @@ const writeups = defineCollection({
     ]),
     platform: z.string().optional(),
     difficulty: z.enum(["easy", "medium", "hard", "insane"]).optional(),
+    /** Optional cover image (public URL, e.g. /images/writeups/foo.png). */
+    image: z.string().optional(),
   }),
 });
 

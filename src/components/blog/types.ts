@@ -17,5 +17,7 @@ export interface ArticleLike {
     tags: string[];
     svgSlug?: string;
     draft?: boolean;
+    /** Optional cover image URL (public path); falls back to generated SVG art. */
+    image?: string;
   };
 }
