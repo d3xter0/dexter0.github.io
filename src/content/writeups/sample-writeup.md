@@ -3,7 +3,7 @@ title: "CCTV - HTB Writeup"
 description: "A sample writeup that proves the writeups pipeline works end to end. Replace or delete this file once real writeups land."
 locale: en
 publishDate: 2026-10-05
-draft: true
+draft: false
 featured: false
 tags: ["sample", "linux", "recon"]
 author: "dexter"
