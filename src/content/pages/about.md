@@ -23,11 +23,6 @@ sections:
       - title: Git-Based Content
         description: Markdown collections that are versioned, reviewable, and easy to own.
         icon: git-branch
-  - type: cta
-    title: Ready to build?
-    content: Explore the blog or browse the docs to get started.
-    ctaText: Read the blog
-    ctaHref: /blog
 isLegal: false
 order: 1
 ---
