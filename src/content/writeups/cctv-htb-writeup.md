@@ -11,13 +11,13 @@ category: htb
 platform: "Hack The Box"
 difficulty: easy
 toc: true
-image: /cctv.jpeg
+image: /cctv/cctv.jpeg
 ---
 
 This writeup documents the exploitation of the **CCTV** machine from **Hack The Box — Season 10**.
 Grab a coffee ☕ and let's dive in.
 
-![CCTV machine banner](/cctv-banner.png)
+![CCTV machine banner](/cctv/cctv-banner.png)
 
 ## Reconnaissance & Port Scanning
 
@@ -53,7 +53,7 @@ admin : admin
 
 worked immediately and granted access to the dashboard.
 
-![Logging into the ZoneMinder dashboard with the default admin credentials](/cctv-zoneminder-login.gif)
+![Logging into the ZoneMinder dashboard with the default admin credentials](/cctv/cctv-zoneminder-login.gif)
 
 After logging in, I was redirected to the **ZoneMinder dashboard**, which is an open-source CCTV surveillance platform.
 
@@ -316,11 +316,11 @@ Out of curiosity, I tried using the **hash itself as the password** when logging
 
 Surprisingly, this worked, and I was successfully authenticated into the **motionEye dashboard** as the admin user.
 
-![Logging into the motionEye dashboard using the hash as the password](/cctv-motioneye-login.gif)
+![Logging into the motionEye dashboard using the hash as the password](/cctv/cctv-motioneye-login.gif)
 
 After successfully logging into the **motionEye dashboard**, I started exploring the available settings. By opening the menu in the top-left corner and navigating through the configuration options, I found detailed information about the running software.
 
-![motionEye version information](/cctv-motioneye-about.jpeg)
+![motionEye version information](/cctv/cctv-motioneye-about.jpeg)
 
 The interface revealed the following versions:
 
@@ -354,7 +354,7 @@ $(touch /tmp/test).%Y-%m-%d-%H-%M-%S
 
 After applying the configuration, I checked the `/tmp` directory on the target machine and confirmed that the file had been created successfully. This proved that command execution was possible on the system.
 
-![The /tmp/test file created on the target](/cctv-rce-test.jpeg)
+![The /tmp/test file created on the target](/cctv/cctv-rce-test.jpeg)
 
 With command injection confirmed, I proceeded to obtain a reverse shell by injecting the following payload:
 
@@ -372,10 +372,10 @@ Once the payload was executed, a reverse shell was received, granting me **root 
 
 After that, I verified the access level and got the flags:
 
-![Root access and the flags](/cctv-flags.jpeg)
+![Root access and the flags](/cctv/cctv-flags.jpeg)
 
 Thanks for taking the time to read this writeup. I hope you found it helpful and interesting.
 
 If you have any questions or feedback, feel free to reach out on [LinkedIn](http://www.linkedin.com/in/ahmed-gamal-ag113), [Facebook](https://www.facebook.com/ahmedg113/) or [GitHub](https://github.com/d3xter0).
 
-![Thank you for reading](/cctv-thanks.gif)
+![Thank you for reading](/cctv/cctv-thanks.gif)
