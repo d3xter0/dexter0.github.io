@@ -2,33 +2,16 @@
 translationKey: about
 locale: en
 slug: about
-title: About Us
-description: Meet the team and vision behind the modern marketing website boilerplate.
+title: About
+description: Ahmed Gamal — penetration tester and bug bounty hunter, documenting writeups and security research.
 sections:
   - type: hero
-    title: A foundation built for modern marketing sites
-    content: This starter gives you a fast, accessible, and SEO-ready base — English-first and wired for more languages from day one.
-  - type: features
-    title: What we care about
-    items:
-      - title: Developer Experience
-        description: Modern tooling, end-to-end type safety, and a layout you can actually navigate.
-        icon: code
-      - title: Performance First
-        description: Static-first and edge-ready, with strong Core Web Vitals out of the box.
-        icon: rocket
-      - title: Multilanguage Ready
-        description: An i18n engine and localized content, structured for global reach.
-        icon: globe
-      - title: Git-Based Content
-        description: Markdown collections that are versioned, reviewable, and easy to own.
-        icon: git-branch
+    title: Hi, I'm Ahmed (Dexter)
+    content: I'm a penetration tester and bug bounty hunter from Egypt, focused on web security, API testing, and logic vulnerabilities. I spend most of my time on Hack The Box, CTFs, and bug bounty programs — this site is where I write up what I find.
 isLegal: false
 order: 1
 ---
 
-Marketing sites shouldn't be complicated. With Astro and Cloudflare, you get a foundation that is:
+I'm currently studying IT at the Faculty of Computers and Informatics, Zagazig University, and co-lead the Cyber Security track at Google Developer Groups (GDG) On Campus. My focus areas are web pentesting, API testing, logic bugs, cryptography, reverse engineering, and red teaming.
 
-- **Fast** — static generation paired with edge delivery
-- **Scalable** — an architecture ready for growing teams
-- **Modern** — TypeScript, i18n, and design tokens built in
+I write about the machines I solve, the bugs I find, and anything I learn along the way. Check out my [writeups](/writeups) and [blog](/blog), or reach out on the links below.
