@@ -10,7 +10,7 @@ tags:
   - Secure coding
 author: "dexter"
 translationKey: "getting-started"
-image: /nfkc-cover-splatter.png
+image: /cctv/nfkc-cover-splatter.png
 ---
 
 ## Why This Stack?
