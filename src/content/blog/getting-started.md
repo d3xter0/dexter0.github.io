@@ -1,15 +1,16 @@
 ---
-title: "Getting Started with Astro + Cloudflare"
-description: "A step-by-step guide to building a fast site with Astro and Cloudflare Pages."
+title: "NFKC Normalization"
+description: "How a small mistake leads to COOKIE hijaking"
 locale: "en"
 publishDate: 2026-06-25
 draft: false
 tags:
-  - astro
-  - tutorial
-  - cloudflare
-author: "Admin"
+  - XSS
+  - Exploitation
+  - Secure coding
+author: "dexter"
 translationKey: "getting-started"
+image: /nfkc-cover-splatter.png
 ---
 
 ## Why This Stack?
