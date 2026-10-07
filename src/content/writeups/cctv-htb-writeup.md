@@ -19,7 +19,7 @@ Grab a coffee ☕ and let's dive in.
 
 ![CCTV machine banner](/cctv/cctv-banner.png)
 
-## Reconnaissance & Port Scanning
+# Reconnaissance & Port Scanning
 
 To begin the reconnaissance phase, I first added the target machine's IP address to my local **/etc/hosts** file in order to resolve the hostname easily during testing.
 
@@ -37,7 +37,7 @@ PORT   STATE SERVICE VERSION
 80/tcp open  http    Apache httpd 2.4.58
 ```
 
-## Web Enumeration
+# Web Enumeration
 
 After identifying that **port 80** was open from the **Nmap** scan, I navigated to the web application in the browser.
 
@@ -140,7 +140,7 @@ The output revealed several users along with their password hashes:
 +----+---------+---------+---------+---------+---------+---------+----------+----------+--------------------------------------------------------------+------------+----------+----------+----------+----------+-----------+------------+------------+--------------+----------------+
 | 1  | <blank> | <blank> | <blank> | Edit    | Edit    | 1       | console  | Create   | $2y$10$cmytVWFRnt1XfqsItsJRVe/ApxWxcIFQcURnm5N.rhlULwM0jrtbm | superadmin | Edit     | Edit     | View     | Edit     | Edit      | 1          | <blank>    | <blank>      | 0              |
 | 2  | <blank> | <blank> | mark    | Edit    | Edit    | 1       | console  | Create   | $2y$10$prZGnazejKcuTv5bKNexXOgLyQaok0hq07LW7AJ/QNqZolbXKfFG. | mark       | Edit     | Edit     | View     | View     | <blank>   | 1          | <blank>    | <blank>      | 0              |
-| 3  | <blank> | <blank> | admin   | Edit    | Edit    | 1       | console  | Create   | $2y$10$t5z8uIT.n9uCdHCidcLf.39T1Ui9nrlCkdXrzJMnJgkTiAvRUM6m | admin      | Edit     | Edit     | View     | View     | <blank>   | 1          | <blank>    | <blank>      | 0              |
+| 3  | <blank> | <blank> | admin   | Edit    | Edit    | 1       | console  | Create   | $2y$10$t5z8uIT.n9uCdHCidcLf.39T1Ui9nrlCkdXrzJMnJgkTiAvRUM6m  | admin      | Edit     | Edit     | View     | View     | <blank>   | 1          | <blank>    | <blank>      | 0              |
 +----+---------+---------+---------+---------+---------+---------+----------+----------+--------------------------------------------------------------+------------+----------+----------+----------+----------+-----------+------------+------------+--------------+----------------+
 ```
 
@@ -166,7 +166,7 @@ mark : [**********]
 
 Using these credentials, I was able to authenticate as the **mark** user on the system and continue the exploitation process.
 
-## SSH Access
+# SSH Access
 
 After successfully cracking the password hash for the **mark** user, I attempted to authenticate to the system via **SSH** using the recovered credentials.
 
@@ -209,7 +209,7 @@ However, access was denied due to insufficient permissions.
 
 Since the **mark** user did not have permission to access the `sa_mark` directory, I concluded that a **privilege escalation** would be required in order to retrieve the flag.
 
-## Privilege Escalation
+# Privilege Escalation
 
 Since I could not access the `sa_mark` directory, I began looking for possible **privilege escalation vectors**.
 
@@ -375,7 +375,5 @@ After that, I verified the access level and got the flags:
 ![Root access and the flags](/cctv/cctv-flags.jpeg)
 
 Thanks for taking the time to read this writeup. I hope you found it helpful and interesting.
-
-If you have any questions or feedback, feel free to reach out on [LinkedIn](http://www.linkedin.com/in/ahmed-gamal-ag113), [Facebook](https://www.facebook.com/ahmedg113/) or [GitHub](https://github.com/d3xter0).
 
 ![Thank you for reading](/cctv/cctv-thanks.gif)
