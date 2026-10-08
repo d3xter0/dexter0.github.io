@@ -12,7 +12,7 @@ sections:
     title: What I do
     items:
       - title: Web Security
-        description: SQLi, XSS, SSRF, CSRF, IDOR, Broken Access Control, Clickjacking, Subdomain Takeover, Information Disclosure
+        description: SQLi, XSS, SSRF, CSRF, IDOR, Broken Access Control, Clickjacking, Information Disclosure
         icon: shield
       - title: API Testing
         description: Authentication flows, logic vulnerabilities, and access control issues in APIs
