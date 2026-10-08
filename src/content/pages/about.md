@@ -7,7 +7,7 @@ description: Ahmed Gamal (Dexter) — penetration tester, bug bounty hunter, and
 sections:
   - type: hero
     title: Hey, I'm Ahmed — aka Dexter 👋
-    content: >
+    content:
       I'm a penetration tester and bug bounty hunter from Egypt who enjoys
       breaking things, understanding why they break, and turning that knowledge
       into something useful.
